@@ -1,0 +1,87 @@
+<ng-container>
+  <mat-grid-list
+    [cols]="breakpoint"
+    rowHeight="1:1"
+    (window:resize)="onResize($event)"
+    class="grid"
+  >
+    <mat-grid-tile
+      ><div class="mat-elevation-z8">
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Filtro</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Buscar Pokemon"
+            #input
+          />
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSource">
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <!-- URL Column -->
+          <ng-container matColumnDef="url">
+            <th mat-header-cell *matHeaderCellDef>Url</th>
+            <td mat-cell *matCellDef="let element">{{ element.url }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            (click)="itemSelected(row)"
+            *matRowDef="let row; columns: displayedColumns"
+          ></tr>
+        </table>
+
+        <mat-paginator
+          showFirstLastButtons
+          pageSize="5"
+          aria-label="Select page of periodic elements"
+        >
+        </mat-paginator></div
+    ></mat-grid-tile>
+    <mat-grid-tile
+      ><mat-card>
+        <h3>Pokemon seleccionado</h3>
+        <mat-card-header>
+          <div *ngIf="displayPokemon">
+            <mat-card-title>{{ displayPokemon?.name }}</mat-card-title>
+            <mat-card-subtitle *ngFor="let item of displayPokemon?.types">
+              <li>{{ item.type.name }}</li></mat-card-subtitle
+            >
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <h4>Ataques:</h4>
+          <li *ngFor="let item of displayPokemon?.abilities">
+            {{ item.ability.name }}
+          </li>
+        </mat-card-content>
+      </mat-card></mat-grid-tile
+    >
+  </mat-grid-list>
+</ng-container>
+<table mat-table [dataSource]="dataSourceResume">
+  <!-- Name Column -->
+  <ng-container matColumnDef="letter">
+    <th mat-header-cell *matHeaderCellDef>Inicial</th>
+    <td mat-cell *matCellDef="let element">{{ element.letter }}</td>
+  </ng-container>
+
+  <!-- URL Column -->
+  <ng-container matColumnDef="count">
+    <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+    <td mat-cell *matCellDef="let element">{{ element.count }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsResume"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumnsResume"
+  ></tr>
+</table>
+<router-outlet></router-outlet>
